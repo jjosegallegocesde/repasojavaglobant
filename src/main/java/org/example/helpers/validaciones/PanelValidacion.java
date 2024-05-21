@@ -1,29 +1,30 @@
 package org.example.helpers.validaciones;
 
+import org.example.helpers.generals.General;
+import org.example.helpers.generals.Mensaje;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PanelValidacion {
 
-    public boolean validarAutonomia(Double autonomia) throws Exception{
+    private General general = new General();
 
+    public boolean validarAutonomia(Double autonomia) throws Exception{
         //solo numeros
         String regex = "^[0-9]+$";
-        String autonomiaCadena=String.valueOf(autonomia);
-        Pattern patron = Pattern.compile(regex);
-        Matcher coincidencia= patron.matcher(autonomiaCadena);
-        if(!coincidencia.matches()){
-            throw new Exception("solo se aceptan numeros revisa por favor");
+        if(!this.general.validarRegex(regex,String.valueOf(autonomia))){
+            throw new Exception(Mensaje.AUTONOMIA_FORMATO.getMensaje());
         }
 
         //no negativos
         if(autonomia<0.0){
-            throw new Exception("error el numero no puede ser negativo");
+            throw new Exception(Mensaje.AUTONOMIA_NEGATIVA.getMensaje());
         }
 
         //numero maximo 30.0
         if(autonomia>30.0){
-            throw new Exception("error el numero no puede ser mayor de 30");
+            throw new Exception(Mensaje.AUTONOMIA_MUY_GRANDE.getMensaje());
         }
 
         return true;
